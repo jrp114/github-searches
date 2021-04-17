@@ -51,7 +51,7 @@ const UserCard: React.FC<UserCardProps> = (props) => {
           timeout: 500,
         }}
       >
-        <Fade in={setShowModal}>
+        <Fade in={showModal}>
           <Paper className={classes.paper}>
             <div>
               {user?.avatar_url ? (
@@ -60,28 +60,18 @@ const UserCard: React.FC<UserCardProps> = (props) => {
                   src={user?.avatar_url}
                 />
               ) : null}
-              <Typography gutterBottom variant='h2'>
-                {user.login}
-              </Typography>
+              <Typography variant='h2'>{user.login}</Typography>
               {user?.company ? (
                 <div>
-                  <Typography gutterBottom variant='h4'>
-                    Company
-                  </Typography>{' '}
-                  <Typography gutterBottom variant='h5'>
-                    {user.company}
-                  </Typography>
+                  <Typography variant='h4'>Company</Typography>{' '}
+                  <Typography variant='h5'>{user.company}</Typography>
                   <br />
                 </div>
               ) : null}
               {user?.bio ? (
                 <div>
-                  <Typography gutterBottom variant='h4'>
-                    Bio
-                  </Typography>
-                  <Typography gutterBottom variant='h5'>
-                    {user.bio}
-                  </Typography>
+                  <Typography variant='h4'>Bio</Typography>
+                  <Typography variant='h5'>{user.bio}</Typography>
                   <br />
                 </div>
               ) : null}
@@ -89,7 +79,7 @@ const UserCard: React.FC<UserCardProps> = (props) => {
               /^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(
                 user?.blog
               ) ? (
-                <Typography gutterBottom variant='subtitle1'>
+                <Typography variant='subtitle1'>
                   <a href={user.blog} target='_blank'>
                     {user?.login}'s blog
                   </a>
@@ -99,19 +89,19 @@ const UserCard: React.FC<UserCardProps> = (props) => {
               /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(
                 user?.html_url
               ) ? (
-                <Typography gutterBottom variant='subtitle1'>
+                <Typography variant='subtitle1'>
                   <a href={user.html_url} target='_blank'>
                     {user?.login}'s GitHub page
                   </a>
                 </Typography>
               ) : null}
               {user?.followers ? (
-                <Typography gutterBottom variant='subtitle1'>
+                <Typography variant='subtitle1'>
                   Followers: {user?.followers}
                 </Typography>
               ) : null}
               {user?.following ? (
-                <Typography gutterBottom variant='subtitle1'>
+                <Typography variant='subtitle1'>
                   Following: {user?.following}
                 </Typography>
               ) : null}

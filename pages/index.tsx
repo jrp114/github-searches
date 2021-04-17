@@ -55,6 +55,7 @@ const IndexPage: React.FC = () => {
 
   return (
     <Users
+      key={'Users'}
       updateSearchString={updateSearchString}
       handleSearchCall={handleSearchCall}
       setPage={setPage}

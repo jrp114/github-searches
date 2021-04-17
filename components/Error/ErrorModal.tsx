@@ -46,7 +46,7 @@ const ErrorModal: React.FC<ErrorModalProps> = (props) => {
         <Fade in={error}>
           <Paper className={classes.paper}>
             <div>
-              <Typography gutterBottom color='error' variant='h4'>
+              <Typography color='error' variant='h4'>
                 Sorry! We could not process your request
               </Typography>
             </div>

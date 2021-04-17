@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UserCardModal from './UserCard'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -73,6 +73,11 @@ const Users: React.FC<UsersProps> = (props) => {
 
   const [showModal, setShowModal] = useState(false)
   const [userDetail, setUserDetail] = useState({})
+  const [pageAt, setPageAt] = useState(currentPage)
+
+  useEffect(() => {
+    setPageAt(currentPage)
+  }, [currentPage])
 
   const handleUserModal = async (user) => {
     const data = await getUser(user.url)
@@ -97,12 +102,7 @@ const Users: React.FC<UsersProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <Typography
-        className={classes.title}
-        gutterBottom
-        variant='h2'
-        color='secondary'
-      >
+      <Typography className={classes.title} variant='h2' color='secondary'>
         GitHub User Search
       </Typography>
       <Paper className={classes.paper}>
@@ -132,12 +132,13 @@ const Users: React.FC<UsersProps> = (props) => {
           <Pagination
             className={classes.pagnation}
             count={numberOfPages}
+            page={pageAt}
             onChange={changePagnation}
             color='primary'
           />
         ) : null}
         {currentPage >= 1 ? (
-          <Typography gutterBottom variant='subtitle1'>
+          <Typography variant='subtitle1'>
             Total Count: {users?.total_count}
           </Typography>
         ) : null}
@@ -146,9 +147,10 @@ const Users: React.FC<UsersProps> = (props) => {
       {users.items.length > 0 && (
         <Paper className={classes.paperResults}>
           {users?.items?.map((user) => (
-            <div>
-              <Typography gutterBottom variant='h6'>
+            <div key={user.login}>
+              <Typography key={user.login} variant='h6'>
                 <Link
+                  key={user.login}
                   href='#'
                   underline='hover'
                   className='users'
@@ -163,12 +165,19 @@ const Users: React.FC<UsersProps> = (props) => {
       )}
       {showModal ? (
         <UserCardModal
+          key='UserCard'
           user={userDetail}
           setShowModal={setShowModal}
           showModal={showModal}
         />
       ) : null}
-      {error ? <ErrorModal error={error} setError={setShowErrorModal} /> : null}
+      {error ? (
+        <ErrorModal
+          key={'ErrorModal'}
+          error={error}
+          setError={setShowErrorModal}
+        />
+      ) : null}
     </div>
   )
 }
