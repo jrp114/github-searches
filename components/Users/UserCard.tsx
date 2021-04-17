@@ -90,7 +90,7 @@ const UserCard: React.FC<UserCardProps> = (props) => {
                 user?.blog
               ) ? (
                 <Typography gutterBottom variant="subtitle1">
-                  <a href={user.blog}>{user?.login}'s blog</a>
+                  <a href={user.blog} target="_blank">{user?.login}'s blog</a>
                 </Typography>
               ) : null}
               {user?.html_url &&
@@ -98,7 +98,7 @@ const UserCard: React.FC<UserCardProps> = (props) => {
                 user?.html_url
               ) ? (
                 <Typography gutterBottom variant="subtitle1">
-                  <a href={user.html_url}>{user?.login}'s GitHub page</a>
+                  <a href={user.html_url} target="_blank">{user?.login}'s GitHub page</a>
                 </Typography>
               ) : null}
               {user?.followers ? (
