@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Users from '../components/Users'
+import Users from '../components/Users/Users'
 import { searchUsers } from '../helpers/data-fetcher'
 
 
@@ -28,7 +28,7 @@ const IndexPage: React.FC = () => {
             setUsers(data)
         }
     }
-    
+
     const updateSearchString = (e) => {
         setQuery(e.target.value)
         setQueryChanged(true)

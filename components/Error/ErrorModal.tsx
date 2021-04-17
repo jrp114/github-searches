@@ -5,6 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import { ErrorModalProps } from "./Error.entity";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,12 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type Props = {
-    error: boolean,
-    setError: (error: boolean) => void
-};
-
-const ErrorModal: React.FC<Props> = (props) => {
+const ErrorModal: React.FC<ErrorModalProps> = (props) => {
   const classes = useStyles();
   const { error, setError } = props;
 

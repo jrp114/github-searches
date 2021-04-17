@@ -8,8 +8,9 @@ import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
 import Typography from "@material-ui/core/Typography";
 import { Link } from '@material-ui/core';
-import ErrorModal from './ErrorModal'
-import { getUser } from '../helpers/data-fetcher'
+import ErrorModal from '../Error/ErrorModal'
+import { getUser } from '../../helpers/data-fetcher'
+import { UsersProps } from './Users.entity';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,17 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type Props = {
-    updateSearchString: (e: any) => void,
-    handleSearchCall: () => void,
-    setPage: (n: number) => void,
-    setShowErrorModal: (error: boolean) => void,
-    currentPage: number,
-    users: {items: any[], total_count: number, avatar_url: string, followers_url: string, starred_url: string},
-    error: boolean
-}
-
-const Users: React.FC<Props> = (props) => {
+const Users: React.FC<UsersProps> = (props) => {
     const classes = useStyles();
     const {
         updateSearchString,

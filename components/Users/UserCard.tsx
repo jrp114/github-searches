@@ -5,6 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import { UserCardProps } from "./Users.entity";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,13 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type Props = {
-  user: any;
-  setShowModal: any;
-  showModal: boolean;
-};
-
-const UserCard: React.FC<Props> = (props) => {
+const UserCard: React.FC<UserCardProps> = (props) => {
   const classes = useStyles();
   const { user, setShowModal, showModal } = props;
 
