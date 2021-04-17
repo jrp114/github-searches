@@ -1,6 +1,7 @@
 export type UsersProps = {
   updateSearchString: (e: any) => void
   handleSearchCall: () => void
+  handleKeyPressSearchCall: (e: any) => void
   setPage: (n: number) => void
   setShowErrorModal: (error: boolean) => void
   currentPage: number

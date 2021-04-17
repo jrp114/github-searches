@@ -33,6 +33,21 @@ const IndexPage: React.FC = () => {
     }
   }
 
+  const handleKeyPressSearchCall = async (e: any) => {
+    if (e.code == 'Enter') {
+      const data = await searchUsers(query, perPage, page)
+      if (data.error) {
+        setShowErrorModal(true)
+      } else {
+        if (queryChanged) {
+          setPage(1)
+          setQueryChanged(false)
+        }
+        setUsers(data)
+      }
+    }
+  }
+
   const updateSearchString = (e) => {
     setQuery(e.target.value)
     setQueryChanged(true)
@@ -47,6 +62,7 @@ const IndexPage: React.FC = () => {
       users={users}
       error={showErrorModal}
       setShowErrorModal={setShowErrorModal}
+      handleKeyPressSearchCall={handleKeyPressSearchCall}
     />
   )
 }

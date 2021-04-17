@@ -63,6 +63,7 @@ const Users: React.FC<UsersProps> = (props) => {
   const {
     updateSearchString,
     handleSearchCall,
+    handleKeyPressSearchCall,
     setPage,
     setShowErrorModal,
     currentPage,
@@ -111,6 +112,7 @@ const Users: React.FC<UsersProps> = (props) => {
               className={classes.textField}
               label="Let's Find Someone"
               onChange={updateSearchString}
+              onKeyPress={handleKeyPressSearchCall}
               variant='outlined'
             />
           </Grid>
