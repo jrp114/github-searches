@@ -6,6 +6,7 @@ import { searchUsers } from '../helpers/data-fetcher'
 const IndexPage: React.FC = () => {
 
     const [query, setQuery] = useState('')
+    const [queryChanged, setQueryChanged] = useState(false)
     const [page, setPage] = useState(0)
     const [perPage] = useState(10)
     const [users, setUsers] = useState({items: [], total_count: null, avatar_url: null, followers_url: null, starred_url: null})
@@ -20,6 +21,10 @@ const IndexPage: React.FC = () => {
         if (data.error) {
             setShowErrorModal(true)
         } else {
+            if (queryChanged) {
+                setPage(1)
+                setQueryChanged(false)
+            }
             setUsers(data)
         }
     }
@@ -42,7 +47,7 @@ const IndexPage: React.FC = () => {
 
     const updateSearchString = (e) => {
         setQuery(e.target.value)
-        page !== 0 && setPage(0)
+        setQueryChanged(true)
     }
 
     return (
@@ -50,6 +55,7 @@ const IndexPage: React.FC = () => {
             handlePageDown={handlePageDown}
             updateSearchString={updateSearchString}
             handlePageUp={handlePageUp}
+            handleSearchCall={handleSearchCall}
             setPage={setPage}
             currentPage={page}
             users={users}

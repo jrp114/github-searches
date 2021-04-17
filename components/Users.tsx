@@ -7,6 +7,7 @@ type Props = {
     handlePageDown: () => void,
     updateSearchString: (e: any) => void,
     handlePageUp: () => void,
+    handleSearchCall: () => void,
     setPage: (n: number) => void,
     setShowErrorModal: (error: boolean) => void,
     currentPage: number,
@@ -19,6 +20,7 @@ const Users: React.FC<Props> = (props) => {
         handlePageDown,
         updateSearchString,
         handlePageUp,
+        handleSearchCall,
         setPage,
         setShowErrorModal,
         currentPage,
@@ -47,8 +49,13 @@ const Users: React.FC<Props> = (props) => {
 
     return (
         <div>
+            <div>
+                <input onChange={updateSearchString}/>
+                <button onClick={handleSearchCall}>Search</button>
+            </div>
+            
             <button onClick={handlePageDown}>-</button>
-            <input onChange={updateSearchString}/>
+            
             <button onClick={handlePageUp}>+</button>
             <div>{currentPage >= 1 ? <h4>Page Number: {currentPage}</h4> : null }{currentPage > 1 ? <span onClick={() => handlePageNumber(currentPage >= 14 ? currentPage-14 : 1)}> ... </span> : null}{
                 users?.total_count && Array.from(Array(numberOfPages), (e, i) => {
