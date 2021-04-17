@@ -28,23 +28,7 @@ const IndexPage: React.FC = () => {
             setUsers(data)
         }
     }
-
-    const handlePageIncrement = (number) => {
-        setPage(number)
-    }
-
-    const handlePageUp = async () => {
-        if (query !== '') {
-            handlePageIncrement(page+1)
-        }
-    }
-
-    const handlePageDown = () => {
-        if (page > 1 && query !== '') {
-            handlePageIncrement(page-1)
-        }
-    }
-
+    
     const updateSearchString = (e) => {
         setQuery(e.target.value)
         setQueryChanged(true)
@@ -52,9 +36,7 @@ const IndexPage: React.FC = () => {
 
     return (
         <Users
-            handlePageDown={handlePageDown}
             updateSearchString={updateSearchString}
-            handlePageUp={handlePageUp}
             handleSearchCall={handleSearchCall}
             setPage={setPage}
             currentPage={page}

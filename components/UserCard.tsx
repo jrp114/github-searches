@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      boxShadow: '5px 5px 15px black'
     },
     paper: {
       backgroundColor: theme.palette.background.paper,

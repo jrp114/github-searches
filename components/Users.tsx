@@ -1,12 +1,64 @@
 import React, { useState } from 'react'
-import Modal from './UserCard'
+import UserCardModal from './UserCard'
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Pagination from '@material-ui/lab/Pagination';
+import Typography from "@material-ui/core/Typography";
+import { Link } from '@material-ui/core';
 import ErrorModal from './ErrorModal'
 import { getUser } from '../helpers/data-fetcher'
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+        flexGrow: 1,
+    },
+    title: {
+        padding: theme.spacing(1),
+        textAlign:'center',
+        justifyContent: 'center',
+        margin: 'auto',
+        width: '35%',
+        fontFamily: 'roboto',
+        color: '#03f4fc',
+        textShadow: '5px 5px 11px black'
+    },
+    paper: {
+        padding: theme.spacing(2),
+        justifyContent: 'center',
+        margin: 'auto',
+        width: '35%',
+        boxShadow: '5px 5px 15px black'
+    },
+    paperResults: {
+        padding: theme.spacing(2),
+        marginTop: 15,
+        justifyContent: 'center',
+        margin: 'auto',
+        width: '35%',
+        boxShadow: '5px 5px 15px black'
+    },
+    textField: {
+        width: '100%'
+    },
+    pagnation: {
+        paddingTop: 15,
+        paddingBottom: 15,
+    },
+    search: {
+        paddingLeft: 5
+    },
+    pageNumber: {
+        width: '25%'
+    }
+  })
+);
+
 type Props = {
-    handlePageDown: () => void,
     updateSearchString: (e: any) => void,
-    handlePageUp: () => void,
     handleSearchCall: () => void,
     setPage: (n: number) => void,
     setShowErrorModal: (error: boolean) => void,
@@ -16,10 +68,9 @@ type Props = {
 }
 
 const Users: React.FC<Props> = (props) => {
+    const classes = useStyles();
     const {
-        handlePageDown,
         updateSearchString,
-        handlePageUp,
         handleSearchCall,
         setPage,
         setShowErrorModal,
@@ -41,41 +92,45 @@ const Users: React.FC<Props> = (props) => {
         }
     }
 
-    const handlePageNumber = (pageNumber) => {
+    const changePagnation = (e, pageNumber) => {
         setPage(pageNumber)
     }
 
-    const numberOfPages = users?.total_count != 0 ? Math.round(users?.total_count / 10) : 0
+    const numberOfPages = users?.total_count != 0 && users?.total_count <= 1000
+        ? Math.round(users?.total_count / 10)
+        : users?.total_count != 0 && users?.total_count > 1000
+        ? 1000/10
+        : 0
 
     return (
-        <div>
-            <div>
-                <input onChange={updateSearchString}/>
-                <button onClick={handleSearchCall}>Search</button>
-            </div>
-            
-            <button onClick={handlePageDown}>-</button>
-            
-            <button onClick={handlePageUp}>+</button>
-            <div>{currentPage >= 1 ? <h4>Page Number: {currentPage}</h4> : null }{currentPage > 1 ? <span onClick={() => handlePageNumber(currentPage >= 14 ? currentPage-14 : 1)}> ... </span> : null}{
-                users?.total_count && Array.from(Array(numberOfPages), (e, i) => {
-                    return i !== 0 
-                        && i >= currentPage 
-                        && i <= currentPage+14 
-                        && <a onClick={() => handlePageNumber(i)}>{i}{i == currentPage+14 || i == 0
-                            ? '' 
-                            : ', '
-                        }</a>
-                })
+        <div className={classes.root}>
+            <Typography className={classes.title} gutterBottom variant="h2" color="secondary" >GitHub User Search</Typography>
+            <Paper className={classes.paper}>
+                <Grid container>                
+                    <Grid item xs={8}><TextField className={classes.textField} label="Let's Find Someone" onChange={updateSearchString} variant="outlined"/></Grid>
+                    <Grid className={classes.search} item xs={4}><Button variant="contained" size="large" color="primary" onClick={handleSearchCall}>Search</Button></Grid>
+                </Grid>
+                
+                {currentPage >= 1
+                    ? <Pagination className={classes.pagnation} count={numberOfPages} onChange={changePagnation} color="primary" />
+                    : null
+                }
+                {currentPage >= 1
+                    ? <Typography gutterBottom variant="subtitle1">Total Count: {users?.total_count}</Typography>
+                    : null
+                }
+            </Paper>
+
+            {users.items.length > 0
+                && <Paper className={classes.paperResults}>
+                {users?.items?.map(user => (
+                    <div>
+                        <Typography gutterBottom variant="h6"><Link href='#' underline='hover' className="users" onClick={() => handleUserModal(user)}>{user.login}</Link></Typography>
+                    </div>))}
+                </Paper>
             }
-            </div>
-            <div><h4>Total Count: {users?.total_count}</h4></div>
-            {users?.items?.map(user => (
-                <div>
-                    <h3 className="users" onClick={() => handleUserModal(user)}>{user.login}</h3>
-                </div>))}
-            {showModal ? <Modal user={userDetail} setShowModal={setShowModal} showModal={showModal}/> : null}
-            {error ? <ErrorModal error={error} setError={setShowErrorModal} /> : null}
+            {showModal ? <UserCardModal user={userDetail} setShowModal={setShowModal} showModal={showModal}/> : null}
+            {error ? <ErrorModal error={error} setError={setShowErrorModal} /> : null}   
         </div>
     )
   }
