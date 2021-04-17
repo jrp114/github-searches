@@ -43,8 +43,6 @@ const UserCard: React.FC<Props> = (props) => {
     setShowModal(false);
   };
 
-  console.log(user);
-
   return (
     <div>
       <Modal

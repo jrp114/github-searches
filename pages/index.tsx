@@ -9,13 +9,19 @@ const IndexPage: React.FC = () => {
     const [page, setPage] = useState(0)
     const [perPage] = useState(10)
     const [users, setUsers] = useState({items: [], total_count: null, avatar_url: null, followers_url: null, starred_url: null})
+    const [showErrorModal, setShowErrorModal] = useState(false)
 
     useEffect(() => {
         page !== 0 && handleSearchCall()
     }, [page])
 
     const handleSearchCall = async () => {
-        setUsers(await searchUsers(query, perPage, page))
+        const data = await searchUsers(query, perPage, page)
+        if (data.error) {
+            setShowErrorModal(true)
+        } else {
+            setUsers(data)
+        }
     }
 
     const handlePageIncrement = (number) => {
@@ -47,6 +53,8 @@ const IndexPage: React.FC = () => {
             setPage={setPage}
             currentPage={page}
             users={users}
+            error={showErrorModal}
+            setShowErrorModal={setShowErrorModal}
         />
     )
   }
