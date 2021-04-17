@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Modal from './UserCard'
 import { getUser } from '../helpers/data-fetcher'
 
@@ -22,13 +22,11 @@ const Users: React.FC<Props> = (props) => {
     } = props
 
     const [showModal, setShowModal] = useState(false)
-    const [user, setUser] = useState({})
     const [userDetail, setUserDetail] = useState({})
 
     const handleUserModal = async (user) => {
         setUserDetail(await getUser(user.url))
         setShowModal(true)
-        setUser(user)
     }
 
     const handlePageNumber = (pageNumber) => {
@@ -42,7 +40,7 @@ const Users: React.FC<Props> = (props) => {
             <button onClick={handlePageDown}>-</button>
             <input onChange={updateSearchString}/>
             <button onClick={handlePageUp}>+</button>
-            <div><h4>Page Number: {currentPage}</h4>{currentPage > 1 ? <span onClick={() => handlePageNumber(currentPage >= 14 ? currentPage-14 : 1)}> ... </span> : null}{
+            <div>{currentPage >= 1 ? <h4>Page Number: {currentPage}</h4> : null }{currentPage > 1 ? <span onClick={() => handlePageNumber(currentPage >= 14 ? currentPage-14 : 1)}> ... </span> : null}{
                 Array.from(Array(numberOfPages), (e, i) => {
                     return i !== 0 
                         && i >= currentPage 
@@ -59,16 +57,9 @@ const Users: React.FC<Props> = (props) => {
                 <div>
                     <h3 className="users" onClick={() => handleUserModal(user)}>{user.login}</h3>
                 </div>))}
-            {showModal ? <Modal user={userDetail} setShowModal={setShowModal} /> : null}
+            {showModal ? <Modal user={userDetail} setShowModal={setShowModal} showModal={showModal}/> : null}
         </div>
     )
   }
 
   export default Users
-
-
-// ● I can search for users and see a paginated list of results
-// ● I can navigate through the next and previous pages of the paginated results
-// ● I see the total count of search results
-// ● I see notable information for each search result, such as the description, star/follower count, profile pictures, etc.
-// ● I can select a search result and be taken to the applicable page on github.com API
