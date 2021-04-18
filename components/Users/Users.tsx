@@ -93,6 +93,11 @@ const Users: React.FC<UsersProps> = (props) => {
     setPage(pageNumber)
   }
 
+  const handleSearchClick = () => {
+    setPage(1)
+    handleSearchCall(1)
+  }
+
   const numberOfPages =
     users?.total_count != 0 && users?.total_count <= 1000
       ? Math.round(users?.total_count / 10)
@@ -121,7 +126,7 @@ const Users: React.FC<UsersProps> = (props) => {
               variant='contained'
               size='large'
               color='primary'
-              onClick={handleSearchCall}
+              onClick={handleSearchClick}
             >
               Search
             </Button>
@@ -146,21 +151,30 @@ const Users: React.FC<UsersProps> = (props) => {
 
       {users.items.length > 0 && (
         <Paper className={classes.paperResults}>
-          {users?.items?.map((user) => (
-            <div key={user.login}>
-              <Typography key={user.login} variant='h6'>
-                <Link
-                  key={user.login}
-                  href='#'
-                  underline='hover'
-                  className='users'
-                  onClick={() => handleUserModal(user)}
-                >
-                  {user.login}
-                </Link>
-              </Typography>
-            </div>
-          ))}
+          {users?.items
+            ?.slice(
+              parseInt(
+                (parseInt(currentPage.toString() + 1) - 10).toString().slice(-2)
+              ) - 1,
+              parseInt(
+                (parseInt(currentPage.toString() + 1) - 10).toString().slice(-2)
+              ) + 9
+            )
+            .map((user) => (
+              <div key={user.login}>
+                <Typography key={user.login} variant='h6'>
+                  <Link
+                    key={user.login}
+                    href='#'
+                    underline='hover'
+                    className='users'
+                    onClick={() => handleUserModal(user)}
+                  >
+                    {user.login}
+                  </Link>
+                </Typography>
+              </div>
+            ))}
         </Paper>
       )}
       {showModal ? (

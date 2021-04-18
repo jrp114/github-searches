@@ -9,7 +9,7 @@ const searchUsers = async (
 ) => {
   try {
     const result: AxiosResponse = await axios.get(
-      `${url}/search/users?q=${searchString}&per_page=${perPage}&page=${pageNumber}`
+      `${url}/search/users?q=${searchString}&per_page=${perPage}&page=${pageNumber}&order=desc`
     )
     return result.data
   } catch (err) {

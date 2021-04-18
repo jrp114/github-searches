@@ -6,7 +6,8 @@ const IndexPage: React.FC = () => {
   const [query, setQuery] = useState('')
   const [queryChanged, setQueryChanged] = useState(false)
   const [page, setPage] = useState(0)
-  const [perPage] = useState(10)
+  const [fetchPage, setFetchPage] = useState(0)
+  const [perPage] = useState(100)
   const [users, setUsers] = useState({
     items: [],
     total_count: null,
@@ -17,25 +18,16 @@ const IndexPage: React.FC = () => {
   const [showErrorModal, setShowErrorModal] = useState(false)
 
   useEffect(() => {
-    page !== 0 && handleSearchCall()
+    const apiPageToCall = Math.ceil(parseInt(page.toString().slice(0)) / 10)
+    if (fetchPage !== apiPageToCall) {
+      handleSearchCall(apiPageToCall)
+      setFetchPage(apiPageToCall)
+    }
   }, [page])
 
-  const handleSearchCall = async () => {
-    const data = await searchUsers(query, perPage, page)
-    if (data.error) {
-      setShowErrorModal(true)
-    } else {
-      if (queryChanged) {
-        setPage(1)
-        setQueryChanged(false)
-      }
-      setUsers(data)
-    }
-  }
-
-  const handleKeyPressSearchCall = async (e: any) => {
-    if (e.code == 'Enter') {
-      const data = await searchUsers(query, perPage, page)
+  const handleSearchCall = async (apiPage) => {
+    if (page !== 0) {
+      const data = await searchUsers(query, perPage, apiPage)
       if (data.error) {
         setShowErrorModal(true)
       } else {
@@ -43,6 +35,19 @@ const IndexPage: React.FC = () => {
           setPage(1)
           setQueryChanged(false)
         }
+        setUsers(data)
+      }
+    }
+  }
+
+  const handleKeyPressSearchCall = async (e: any) => {
+    if (e.code == 'Enter' && query !== '') {
+      const data = await searchUsers(query, perPage, 1)
+      if (data.error) {
+        setShowErrorModal(true)
+      } else {
+        setPage(1)
+        setQueryChanged(false)
         setUsers(data)
       }
     }
